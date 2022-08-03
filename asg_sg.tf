@@ -2,7 +2,7 @@ resource "aws_security_group" "asg_sg" {
   name        = "autoscaling_sg"
   description = "Allow connection for load balancer and bastion host inbound traffic"
   vpc_id      = data.aws_vpc.grp4_vpc.id
-
+# yhyhuh
   ingress {
     description      = "Allow port 80"
     from_port        = 80

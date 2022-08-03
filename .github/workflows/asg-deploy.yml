@@ -2,7 +2,7 @@ name: AutoScaling deployment in AWS
 on:
   push:
     branches:
-      main  # clone the container and deploy through main branch
+      deafult-branch  # clone the container and deploy through main branch
 jobs:
    terraform-deploy:
       runs-on: ubuntu-latest

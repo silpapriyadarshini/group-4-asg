@@ -1,0 +1,2 @@
+vpc_name = "grp4_vpc"
+vpc_cidr = "172.168.0.0/16"

@@ -1,6 +1,6 @@
 resource "aws_lb" "alb_project" {
   name               = "alb-project"
-  security_groups    = [aws_security_group.alb_sg.id]
+  #security_groups    = [aws_security_group.alb_sg.id]
   load_balancer_type = "application"
   subnets            = [data.aws_subnet.public_1.id]
 

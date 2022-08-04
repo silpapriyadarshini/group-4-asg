@@ -14,13 +14,13 @@ data "aws_ami" "nginx-blue" {
 }
 
 # resource "aws_instance" "instance_green" {
-#   ami           = data.aws_ami.nginx-green.id
-#   instance_type = "t2.small"
+#    ami           = data.aws_ami.nginx-green.id
+#    instance_type = "t2.small"
 
-#   tags = {
-#     Name = "instance-green"
-#   }
-# }
+#    tags = {
+#      Name = "instance-blue"
+#    }
+#  }
 
 resource "aws_launch_configuration" "aws_conf_blue" {
   name          = "green-config"

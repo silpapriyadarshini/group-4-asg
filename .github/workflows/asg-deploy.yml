@@ -2,7 +2,7 @@ name: AutoScaling deployment in AWS
 on:
   push:
     branches:
-      default-branch  # clone the container and deploy through main branch
+      shabana_ASG  # clone the container and deploy through main branch
 jobs:
    terraform-deploy:
       runs-on: ubuntu-latest

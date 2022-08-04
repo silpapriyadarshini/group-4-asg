@@ -22,8 +22,8 @@ data "aws_ami" "nginx-green" {
 #   }
 # }
 
-resource "aws_launch_configuration" "aws_conf_green" {
-  name          = "green_config"
+resource "aws_launch_configuration" "aws-conf-green" {
+  name          = "green-config"
   image_id      = data.aws_ami.nginx-green.id
   instance_type = "t2.small"
 }
@@ -35,7 +35,7 @@ resource "aws_autoscaling_group" "asg_green" {
   min_size           = 0
 
   launch_template {
-    id      = aws_launch_configuration.aws_conf_green.id
+    id      = aws_launch_configuration.aws-conf-green.id
     version = "$Latest"
   }
 }

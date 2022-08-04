@@ -22,8 +22,8 @@ data "aws_ami" "nginx-blue" {
 #    }
 #  }
 
-resource "aws_launch_configuration" "aws_conf_blue" {
-  name          = "blue_config"
+resource "aws_launch_configuration" "aws-conf-blue" {
+  name          = "blue-config"
   image_id      = data.aws_ami.nginx-blue.id
   instance_type = "t2.small"
 }
@@ -35,7 +35,7 @@ resource "aws_autoscaling_group" "asg_blue" {
   min_size           = 0
 
   launch_template {
-    id      = aws_launch_configuration.aws_conf_blue.id
+    id      = aws_launch_configuration.aws-conf-blue.id
     version = "$Latest"
   }
 }

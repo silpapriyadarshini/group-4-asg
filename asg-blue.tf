@@ -23,7 +23,7 @@ data "aws_ami" "nginx-blue" {
 #  }
 
 resource "aws_launch_configuration" "aws_conf_blue" {
-  name          = "green-config"
+  name          = "blue_config"
   image_id      = data.aws_ami.nginx-blue.id
   instance_type = "t2.small"
 }

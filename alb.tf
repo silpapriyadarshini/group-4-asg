@@ -2,7 +2,7 @@ resource "aws_lb" "alb_project" {
   name               = "alb-project"
   #security_groups    = [aws_security_group.alb_sg.id]
   load_balancer_type = "application"
-  subnets            = [data.aws_subnet.public_1.id]
+  subnets            = [data.aws_subnet.public_1.id,data.aws_subnet.public_2.id]
 
   enable_deletion_protection = true
 
@@ -21,12 +21,12 @@ resource "aws_alb_listener" "listener_http" {
 
     forward {
       target_group {
-        arn    = aws_lb_target_group.tg_blue.arn
+        arn    = aws_alb_target_group.tg_blue.arn
         weight = 50
       }
     
     target_group {
-      arn    = aws_lb_target_group.tg_green.arn
+      arn    = aws_alb_target_group.tg_green.arn
       weight = 50
       }
     }

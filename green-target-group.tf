@@ -13,7 +13,7 @@ resource "aws_alb_target_group" "tg_green" {
 }
 
 resource "aws_lb_target_group_attachment" "green" {
-  target_group_arn = aws_lb_target_group.tg_green.arn
-# target_id        = aws_instance.green[count.index].id
+  target_group_arn = aws_alb_target_group.tg_green.arn
+  target_id        = aws_autoscaling_group.asg_green.arn
   port             = 80
 }

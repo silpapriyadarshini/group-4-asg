@@ -3,6 +3,14 @@ resource "aws_security_group" "alb_sg" {
   description = "Allow connection for application load balancer"
   vpc_id      = data.aws_vpc.grp4_vpc.id
 
+  # ingress {
+  #   description      = "Allow port 22"
+  #   from_port        = 22
+  #   to_port          = 22
+  #   protocol         = "tcp"
+  #   cidr_blocks      = ["0.0.0.0/0"]
+  # }
+
   ingress {
     description      = "Allow port 80"
     from_port        = 80

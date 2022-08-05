@@ -1,7 +1,13 @@
 data "aws_ami" "nginx-blue" {
   most_recent = true
-  owners = ["099720109477"]
+  owners = ["699330879220"]
+  #image_id =  "ami-0b3f44fa9a0135779"
 
+  # filter {
+  #   name   = "name"
+  #   values = ["apache-blue"]
+  # }
+  
   filter {
     name   = "root-device-type"
     values = ["ebs"]
@@ -33,13 +39,8 @@ resource "aws_autoscaling_group" "asg_blue" {
   vpc_zone_identifier  = [data.aws_subnet.private_1.id, data.aws_subnet.private_2.id]
   desired_capacity   = 2
   max_size           = 2
-  min_size           = 1
-  launch_configuration = aws_launch_configuration.aws-conf-blue.id
-  
-  # launch_template {
-  #   id      = aws_launch_configuration.aws-conf-blue.id
-  #   version = "$Latest"
-  # }
+  min_size             = 1
+  launch_configuration = aws_launch_configuration.aws-conf-blue.name
 }
 
 resource "aws_autoscaling_policy" "asg_policy_blue" {

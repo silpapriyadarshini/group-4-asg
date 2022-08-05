@@ -1,7 +1,13 @@
 data "aws_ami" "nginx-green" {
   most_recent = true
-  owners = ["099720109477"]
+  owners = ["699330879220"]
+  #image_id =  "ami-0ecc254689654e900"
   
+  # filter {
+  #   name   = "name"
+  #   values = ["apache-green"]
+  # }
+
   filter {
     name   = "root-device-type"
     values = ["ebs"]
@@ -29,17 +35,16 @@ resource "aws_launch_configuration" "aws-conf-green" {
 }
 
 resource "aws_autoscaling_group" "asg_green" {
-  #availability_zones = ["ap-south-1a","ap-south-1b"]
-  vpc_zone_identifier  = [data.aws_subnet.private_1.id, data.aws_subnet.private_2.id]
+#availability_zones = ["ap-south-1a","ap-south-1b"]
+
+  vpc_zone_identifier  = [
+    data.aws_subnet.private_1.id, 
+    data.aws_subnet.private_2.id
+  ]
   desired_capacity   = 2
   max_size           = 2
   min_size           = 1
-  launch_configuration = aws_launch_configuration.aws-conf-green.id
-
-  # launch_configuration {
-  #   id      = aws_launch_configuration.aws-conf-green.id
-  #   version = "$Latest"
-  # }
+  launch_configuration = aws_launch_configuration.aws-conf-green.name
 }
 
 resource "aws_autoscaling_policy" "asg_policy_green" {

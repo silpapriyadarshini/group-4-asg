@@ -1,12 +1,6 @@
 data "aws_ami" "nginx-green" {
   most_recent = true
   owners = ["699330879220"]
-  #image_id =  "ami-0ecc254689654e900"
-  
-  # filter {
-  #   name   = "name"
-  #   values = ["apache-green"]
-  # }
 
   filter {
     name   = "root-device-type"
@@ -17,26 +11,21 @@ data "aws_ami" "nginx-green" {
     name   = "virtualization-type"
     values = ["hvm"]
   }
+
+  filter {
+    name   = "image-id"
+    values = ["ami-02a0ce8867b366954"]
+  }
 }
 
-# resource "aws_instance" "instance_green" {
-#   ami           = data.aws_ami.nginx-green.id
-#   instance_type = "t2.small"
-
-#   tags = {
-#     Name = "instance-green"
-#   }
-# }
-
 resource "aws_launch_configuration" "aws-conf-green" {
-  name          = "green-config"
-  image_id      = data.aws_ami.nginx-green.id
-  instance_type = "t2.micro"
+  name            = "green-config"
+  image_id        = data.aws_ami.nginx-green.id
+  instance_type   = "t3.small"
+  security_groups = [data.aws_security_group.asg_sg.id]
 }
 
 resource "aws_autoscaling_group" "asg_green" {
-#availability_zones = ["ap-south-1a","ap-south-1b"]
-
   vpc_zone_identifier  = [
     data.aws_subnet.private_1.id, 
     data.aws_subnet.private_2.id

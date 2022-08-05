@@ -33,3 +33,10 @@ data "aws_subnet" "private_2" {
       values = ["private_subnet_2"] 
   }
 }
+
+data "aws_security_group" "asg_sg" {
+  filter {
+      name   = "tag:Name"
+      values = ["asg_sg"] 
+  }
+}

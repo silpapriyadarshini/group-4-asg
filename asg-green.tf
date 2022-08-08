@@ -1,28 +1,18 @@
-data "aws_ami" "nginx-green" {
+data "aws_ami" "apache-green" {
   most_recent = true
-  owners = ["699330879220"]
+  owners = [var.owner_id]
 
   filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  filter {
-    name   = "image-id"
-    values = ["ami-02a0ce8867b366954"]
+    name   = "name"
+    values = [var.ami_green]
   }
 }
 
-resource "aws_launch_configuration" "aws-conf-green" {
-  name            = "green-config"
-  image_id        = data.aws_ami.nginx-green.id
-  instance_type   = "t3.small"
-  security_groups = [data.aws_security_group.asg_sg.id]
+resource "aws_launch_template" "green_temp" {
+  name_prefix            = "green_temp"
+  image_id               = data.aws_ami.apache-green.id
+  instance_type          = "t3.small"
+  vpc_security_group_ids = [data.aws_security_group.asg_sg.id]
 }
 
 resource "aws_autoscaling_group" "asg_green" {
@@ -32,8 +22,17 @@ resource "aws_autoscaling_group" "asg_green" {
   ]
   desired_capacity   = 2
   max_size           = 2
-  min_size           = 1
-  launch_configuration = aws_launch_configuration.aws-conf-green.name
+  min_size           = 0
+  launch_template {
+    id      = aws_launch_template.green_temp.id
+    version = "$Latest"
+  }
+
+  tag {
+    key                 = "Name"
+    value               = "Green-Instance"
+    propagate_at_launch = true
+  } 
 }
 
 resource "aws_autoscaling_policy" "asg_policy_green" {

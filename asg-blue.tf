@@ -1,28 +1,18 @@
-data "aws_ami" "nginx-blue" {
+data "aws_ami" "apache-blue" {
   most_recent = true
-  owners = ["699330879220"]
+  owners = [var.owner_id]
   
   filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }  
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-  
-  filter {
-    name   = "image-id"
-    values = ["ami-0b8739bd500917e40"]
+    name   = "name"
+    values = [var.ami_blue]
   }
 }
 
-resource "aws_launch_configuration" "aws-conf-blue" {
-   name          = "blue-config"
-   image_id      = data.aws_ami.nginx-blue.id
-   instance_type = "t3.small"
-   security_groups = [data.aws_security_group.asg_sg.id]
+resource "aws_launch_template" "blue_temp" {
+  name_prefix            = "blue_temp"
+  image_id               = data.aws_ami.apache-blue.id
+  instance_type          = "t3.small"
+  vpc_security_group_ids = [data.aws_security_group.asg_sg.id]
 }
 
 resource "aws_autoscaling_group" "asg_blue" {
@@ -32,8 +22,18 @@ resource "aws_autoscaling_group" "asg_blue" {
   ]
   desired_capacity     = 2
   max_size             = 2
-  min_size             = 1
-  launch_configuration = aws_launch_configuration.aws-conf-blue.name
+  min_size             = 0
+
+  launch_template {
+    id      = aws_launch_template.blue_temp.id
+    version = "$Latest"
+  }
+
+  tag {
+    key                 = "Name"
+    value               = "Blue-Instance"
+    propagate_at_launch = true
+  } 
 }
 
 resource "aws_autoscaling_policy" "asg_policy_blue" {

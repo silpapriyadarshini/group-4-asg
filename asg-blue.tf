@@ -5,13 +5,13 @@ data "aws_ami" "nginx-blue" {
   filter {
     name   = "root-device-type"
     values = ["ebs"]
-  }
-  
+  }  
+
   filter {
     name   = "virtualization-type"
     values = ["hvm"]
   }
-
+  
   filter {
     name   = "image-id"
     values = ["ami-0b8739bd500917e40"]
